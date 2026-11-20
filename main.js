@@ -1,6 +1,6 @@
 const sketch = require("./sketch");
 const loop = function () {
-    while (sketch.running) {
+    while (sketch.running()) {
         sketch.update();
         sketch.draw();
     }
