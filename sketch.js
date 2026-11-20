@@ -4,13 +4,21 @@ const running = function () {
     return !r.WindowShouldClose;
 };
 
-const setup = function () {};
+const setup = function () {
+    console.log("setup workings");
+};
 
-const update = function () {};
+const update = function () {
+    // console.log("update workings");
+};
 
-const draw = function () {};
+const draw = function () {
+    // console.log("draw workings");
+};
 
-const tearDown = function () {};
+const tearDown = function () {
+    console.log("tearDown workings");
+};
 
 module.exports = {
     running,
