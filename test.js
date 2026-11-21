@@ -16,6 +16,8 @@ while (!r.WindowShouldClose()) {
     // 1. Capture alphanumeric input
     let key = r.GetCharPressed();
     while (key > 0) {
+        const isAlphanumeric = (key >= 48 && key <= 122) || key === 32;
+
         if (isAlphanumeric && inputText.length < MAX_CHARS) {
             inputText += String.fromCharCode(key);
         }
