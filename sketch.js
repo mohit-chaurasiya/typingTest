@@ -29,6 +29,7 @@ const setup = function () {
         width: WIDTH,
         color: r.WHITE,
     });
+    let inputText = "";
 
     r.SetTraceLogLevel(r.LOG_NONE);
     r.InitWindow(WIDTH, HEIGHT, TITLE);
@@ -43,11 +44,12 @@ const setup = function () {
 
         sentence,
         textBox,
+        inputText,
     };
 };
 
-const update = function () {
-    // console.log("update workings");
+const update = function (world) {
+    world.inputText = input.update(world.sentence.data, world.inputText);
 };
 
 const draw = function (world) {
@@ -57,6 +59,7 @@ const draw = function (world) {
 
     s.draw(sentence);
     input.draw(textBox);
+    r.DrawText(world.inputText, 20, 150, 24, r.BLACK);
 
     r.EndDrawing();
 };
