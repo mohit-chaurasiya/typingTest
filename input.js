@@ -15,7 +15,7 @@ const draw = function ({ dim, color }) {
 const update = function (sentence, inputText) {
     let key = r.GetCharPressed();
     while (key > 0) {
-        const isAlphanumeric = key >= 48 && key <= 122;
+        const isAlphanumeric = (key >= 48 && key <= 122) || key === 32;
         if (isAlphanumeric && inputText.length < sentence.length) {
             inputText += String.fromCharCode(key);
         }
