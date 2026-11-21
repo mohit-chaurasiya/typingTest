@@ -1,6 +1,7 @@
 const r = require("raylib");
 const s = require("./sentence");
 const d = require("./data");
+const input = require("./input");
 
 const running = function () {
     return !r.WindowShouldClose();
@@ -13,13 +14,20 @@ const setup = function () {
     const FPS = 60;
 
     const data = s.getSentence(d.words);
-    console.log(data.length);
     const sentence = s.create({
         data,
         font: 24,
         x: 10,
         y: 20,
         color: r.GRAY,
+    });
+
+    const textBox = input.createTextBox({
+        x: 20,
+        y: 150,
+        height: 100,
+        width: WIDTH,
+        color: r.WHITE,
     });
 
     r.SetTraceLogLevel(r.LOG_NONE);
@@ -34,6 +42,7 @@ const setup = function () {
         },
 
         sentence,
+        textBox,
     };
 };
 
@@ -42,10 +51,13 @@ const update = function () {
 };
 
 const draw = function (world) {
-    const { sentence } = world;
+    const { sentence, textBox } = world;
     r.BeginDrawing();
-    r.ClearBackground(r.BLACK);
+    r.ClearBackground(r.RAYWHITE);
+
     s.draw(sentence);
+    input.draw(textBox);
+
     r.EndDrawing();
 };
 

@@ -31,7 +31,6 @@ const generateRandomSentence = function (words) {
 const getSentence = function (words) {
     const rawSentence = generateRandomSentence(words);
     // const wrappedText = wrapText(rawSentence, 100);
-
     return rawSentence;
 };
 
