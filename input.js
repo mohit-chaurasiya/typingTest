@@ -22,6 +22,10 @@ const update = function (sentence, inputText) {
         key = r.GetCharPressed();
     }
 
+    if (r.IsKeyPressed(r.KEY_BACKSPACE) && inputText.length > 0) {
+        inputText = inputText.slice(0, -1);
+    }
+
     return inputText;
 };
 
