@@ -1,5 +1,4 @@
 const r = require("raylib");
-const s = require("./sentence");
 
 const createTextBox = function ({ color, ...dimension }) {
     return {
