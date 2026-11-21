@@ -11,7 +11,7 @@ const draw = function ({ dim, color }) {
     r.DrawRectangleRec(dim, color);
 };
 
-const update = function (sentence, inputText) {
+const updateInput = function (sentence, inputText) {
     let key = r.GetCharPressed();
     while (key > 0) {
         const isAlphanumeric = key >= 32 && key <= 122;
@@ -21,8 +21,18 @@ const update = function (sentence, inputText) {
         key = r.GetCharPressed();
     }
 
+    return inputText;
+};
+
+const handleBackspace = function (inputText) {
+    return inputText.slice(0, -1);
+};
+
+const update = function (sentence, inputText) {
+    inputText = updateInput(sentence, inputText);
+
     if (r.IsKeyPressed(r.KEY_BACKSPACE) && inputText.length > 0) {
-        inputText = inputText.slice(0, -1);
+        inputText = handleBackspace(inputText);
     }
 
     return inputText;
