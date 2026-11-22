@@ -31,7 +31,8 @@ const setup = function () {
         width: WIDTH,
         color: r.WHITE,
     });
-    let inputText = "";
+    const inputText = [];
+    let inputWord = "";
 
     r.SetTraceLogLevel(r.LOG_NONE);
     r.InitWindow(WIDTH, HEIGHT, TITLE);
@@ -47,9 +48,13 @@ const setup = function () {
         sentence,
         textBox,
         inputText,
+        word: {
+            inputWord,
+        },
         sentenceProperty: {
             mismatch: 0,
             sentenceIndex: 0,
+            charX: textBox.x + 5,
         },
     };
 };
@@ -59,18 +64,19 @@ const update = function (world) {
     world.inputText = input.update(
         sentence.data,
         world.inputText,
+        world.word,
         sentenceProperty,
     );
 };
 
 const draw = function (world) {
-    const { sentence, textBox } = world;
+    const { sentence, textBox, inputText } = world;
     r.BeginDrawing();
     r.ClearBackground(r.RAYWHITE);
 
     s.draw(sentence);
     input.draw(textBox);
-    r.DrawText(world.inputText, 20, 150, 24, r.BLACK);
+    input.drawCharacter(inputText);
     debug.drawDebug(world);
 
     r.EndDrawing();
