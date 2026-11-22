@@ -32,8 +32,6 @@ const setup = function () {
         color: r.WHITE,
     });
     let inputText = "";
-    let sentenceIndex = 0;
-    let mismatch = 0;
 
     r.SetTraceLogLevel(r.LOG_NONE);
     r.InitWindow(WIDTH, HEIGHT, TITLE);
@@ -49,13 +47,20 @@ const setup = function () {
         sentence,
         textBox,
         inputText,
-        mismatch,
-        sentenceIndex,
+        sentenceProperty: {
+            mismatch: 0,
+            sentenceIndex: 0,
+        },
     };
 };
 
 const update = function (world) {
-    world.inputText = input.update(world);
+    const { sentence, sentenceProperty } = world;
+    world.inputText = input.update(
+        sentence.data,
+        world.inputText,
+        sentenceProperty,
+    );
 };
 
 const draw = function (world) {

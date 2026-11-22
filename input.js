@@ -12,22 +12,24 @@ const draw = function ({ dim, color }) {
     r.DrawRectangleRec(dim, color);
 };
 
-const updateInput = function (sentence, inputText, key, world) {
+const isCharSame = function (char, sentence, sentenceProp) {
+    return isEqual(char, sentence.at(sentenceProp.sentenceIndex));
+};
+const updateInput = function (sentence, inputText, sentenceProp) {
+    let key = r.GetCharPressed();
+    const char = String.fromCharCode(key);
+
     while (key > 0) {
-        if (
-            !isEqual(
-                String.fromCharCode(key),
-                world.sentence.data.at(world.sentenceIndex),
-            ) &&
-            inputText.length < sentence.length
-        ) {
-            world.mismatch += 1;
+        const isAlphanumeric = key >= 32 && key <= 122;
+        const isInputLengthLimit = inputText.length < sentence.length;
+
+        if (!isCharSame(char, sentence, sentenceProp) && isInputLengthLimit) {
+            sentenceProp.mismatch += 1;
         }
 
-        const isAlphanumeric = key >= 32 && key <= 122;
-        if (isAlphanumeric && inputText.length < sentence.length) {
-            inputText += String.fromCharCode(key);
-            world.sentenceIndex += 1;
+        if (isAlphanumeric && isInputLengthLimit) {
+            inputText += char;
+            sentenceProp.sentenceIndex += 1;
         }
 
         key = r.GetCharPressed();
@@ -40,28 +42,15 @@ const handleBackspace = function (inputText) {
     return inputText.slice(0, -1);
 };
 
-const isEqualWithChar = function (inputText, sentence) {
-    for (let i = 0; i < inputText.length; i++) {
-        if (!isEqual(inputText.at(i), sentence.at(i))) return false;
-    }
-    return true;
-};
+const update = function (sentence, inputText, sentenceProp) {
+    inputText = updateInput(sentence, inputText, sentenceProp);
 
-const update = function (world) {
-    const key = r.GetCharPressed();
-    world.inputText = updateInput(
-        world.sentence.data,
-        world.inputText,
-        key,
-        world,
-    );
-
-    if (r.IsKeyPressed(r.KEY_BACKSPACE) && world.inputText.length > 0) {
-        world.inputText = handleBackspace(world.inputText);
-        world.sentenceIndex -= 1;
+    if (r.IsKeyPressed(r.KEY_BACKSPACE) && inputText.length > 0) {
+        inputText = handleBackspace(inputText);
+        sentenceProp.sentenceIndex -= 1;
     }
 
-    return world.inputText;
+    return inputText;
 };
 
 module.exports = {
