@@ -12,13 +12,24 @@ const draw = function ({ dim, color }) {
     r.DrawRectangleRec(dim, color);
 };
 
-const updateInput = function (sentence, inputText) {
-    let key = r.GetCharPressed();
+const updateInput = function (sentence, inputText, key, world) {
     while (key > 0) {
+        if (
+            !isEqual(
+                String.fromCharCode(key),
+                world.sentence.data.at(world.sentenceIndex),
+            ) &&
+            inputText.length < sentence.length
+        ) {
+            world.mismatch += 1;
+        }
+
         const isAlphanumeric = key >= 32 && key <= 122;
         if (isAlphanumeric && inputText.length < sentence.length) {
             inputText += String.fromCharCode(key);
+            world.sentenceIndex += 1;
         }
+
         key = r.GetCharPressed();
     }
 
@@ -36,17 +47,21 @@ const isEqualWithChar = function (inputText, sentence) {
     return true;
 };
 
-const update = function (sentence, inputText) {
-    inputText = updateInput(sentence, inputText);
+const update = function (world) {
+    const key = r.GetCharPressed();
+    world.inputText = updateInput(
+        world.sentence.data,
+        world.inputText,
+        key,
+        world,
+    );
 
-    const areSame = isEqualWithChar(inputText, sentence);
-    console.log("Both are same: ", areSame);
-
-    if (r.IsKeyPressed(r.KEY_BACKSPACE) && inputText.length > 0) {
-        inputText = handleBackspace(inputText);
+    if (r.IsKeyPressed(r.KEY_BACKSPACE) && world.inputText.length > 0) {
+        world.inputText = handleBackspace(world.inputText);
+        world.sentenceIndex -= 1;
     }
 
-    return inputText;
+    return world.inputText;
 };
 
 module.exports = {

@@ -2,6 +2,8 @@ const r = require("raylib");
 const s = require("./sentence");
 const d = require("./data");
 const input = require("./input");
+const debug = require("./debug");
+const { isEqual } = require("./geometry");
 
 const running = function () {
     return !r.WindowShouldClose();
@@ -30,6 +32,8 @@ const setup = function () {
         color: r.WHITE,
     });
     let inputText = "";
+    let sentenceIndex = 0;
+    let mismatch = 0;
 
     r.SetTraceLogLevel(r.LOG_NONE);
     r.InitWindow(WIDTH, HEIGHT, TITLE);
@@ -45,11 +49,13 @@ const setup = function () {
         sentence,
         textBox,
         inputText,
+        mismatch,
+        sentenceIndex,
     };
 };
 
 const update = function (world) {
-    world.inputText = input.update(world.sentence.data, world.inputText);
+    world.inputText = input.update(world);
 };
 
 const draw = function (world) {
@@ -60,6 +66,7 @@ const draw = function (world) {
     s.draw(sentence);
     input.draw(textBox);
     r.DrawText(world.inputText, 20, 150, 24, r.BLACK);
+    debug.drawDebug(world);
 
     r.EndDrawing();
 };

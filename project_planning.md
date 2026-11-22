@@ -23,3 +23,9 @@
 8. calculate the time to complete one word .
 9. make it average
 10. show on screen
+
+### approach for checking equal or not
+
+r.getCharCode se hum key. press ka code le lenge -> wuske baad wusko string meo convert kr deneg - >
+fir ek variable bnayenge toh jo humara current string k index ko count krta rahega -> fir hum bs check karenge ki ye ki iss index ki value key se match ho rhi hai ya nhi
+, agr nhi ho rhi hai toh mismatch name k variable k count ko 1 bdha denge
