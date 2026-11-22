@@ -1,4 +1,5 @@
 const r = require("raylib");
+const { randomNumber } = require("./geometry");
 
 // const wrapText = function (sentence, length) {
 //     const words = sentence.split(" ");
@@ -22,7 +23,7 @@ const r = require("raylib");
 const generateRandomSentence = function (words) {
     let sentence = "";
     const space = " ";
-    const pos = Math.floor(Math.random() * words.length);
+    const pos = Math.floor(randomNumber(0, words.length));
     sentence += words[pos].concat(space);
 
     return sentence;

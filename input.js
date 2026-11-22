@@ -15,6 +15,7 @@ const draw = function ({ dim, color }) {
 const isCharSame = function (char, sentence, sentenceProp) {
     return isEqual(char, sentence.at(sentenceProp.sentenceIndex));
 };
+
 const updateInput = function (sentence, inputText, sentenceProp) {
     let key = r.GetCharPressed();
     const char = String.fromCharCode(key);
