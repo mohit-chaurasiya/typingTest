@@ -1,4 +1,4 @@
-const { isEqual } = require("./geometry");
+const { isEqual, wpm } = require("./geometry");
 
 const test = function (message, expected, userInput, stringInput) {
     const actual = isEqual(userInput, stringInput);

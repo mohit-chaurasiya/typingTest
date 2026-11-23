@@ -3,6 +3,7 @@ const s = require("./sentence");
 const d = require("./data");
 const input = require("./input");
 const debug = require("./debug");
+const { wpm } = require("./geometry");
 
 const running = function () {
     return !r.WindowShouldClose();
@@ -55,11 +56,21 @@ const setup = function () {
             sentenceIndex: 0,
             charX: textBox.x + 5,
         },
+        result: {
+            time: 0,
+        },
+        isTypingComplete: false,
     };
 };
 
 const update = function (world) {
-    const { sentence, sentenceProperty } = world;
+    const { sentence, sentenceProperty, result, screen } = world;
+
+    if (sentence.data.length === world.inputText.length) {
+        return false;
+    }
+    result.time += 1 / screen.fps;
+
     world.inputText = input.update(
         sentence.data,
         world.inputText,
@@ -69,13 +80,23 @@ const update = function (world) {
 };
 
 const draw = function (world) {
-    const { sentence, textBox, inputText } = world;
+    const { sentence, textBox, inputText, result } = world;
     r.BeginDrawing();
     r.ClearBackground(r.RAYWHITE);
 
     s.draw(sentence);
     input.draw(textBox);
     input.drawCharacter(inputText);
+
+    if (sentence.data.length === world.inputText.length) {
+        r.DrawText(
+            `WPM : ${(wpm(Math.floor(result.time)), sentence.data.length)}`,
+            600,
+            30,
+            18,
+            r.GRAY,
+        );
+    }
     debug.drawDebug(world);
 
     r.EndDrawing();

@@ -34,4 +34,6 @@ fir ek variable bnayenge toh jo humara current string k index ko count krta rahe
 
 first i get the length of that sentence including space and punctutation, then i count the second taken by the user by using 1/FPS to get the second then I use Math.floor to convert into the integer after getting the second I convert into minute and then I use this formula :-
 
-        WPM = (Total Character of string * Time) / 5 :- this is the standard formula
+        time = second / 60
+        word = length / 5
+        WPM = word / time :- this is the standard formula
