@@ -13,8 +13,15 @@ const wpm = function (time, length) {
     return word / min;
 };
 
+const accuracy = function (mismatch, total) {
+    const misMatchAccuracy = (mismatch / total) * 100;
+    const correctAccuracy = 100 - misMatchAccuracy;
+    return correctAccuracy;
+};
+
 module.exports = {
     isEqual,
     randomNumber,
     wpm,
+    accuracy,
 };

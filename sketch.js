@@ -3,7 +3,7 @@ const s = require("./sentence");
 const d = require("./data");
 const input = require("./input");
 const debug = require("./debug");
-const { wpm } = require("./geometry");
+const { wpm, accuracy } = require("./geometry");
 
 const running = function () {
     return !r.WindowShouldClose();
@@ -85,13 +85,24 @@ const update = function (world) {
     );
 };
 
-const drawWPMandAccuracy = function (time, length) {
+const drawWPMandAccuracy = function (time, length, mismatch) {
     const wordPerMinute = wpm(Math.floor(time), length);
-    r.DrawText(`WPM : ${wordPerMinute}`, 900, 30, 18, r.GRAY);
+    const correctAccuracy = Math.floor(accuracy(mismatch, length + 1));
+    r.DrawText(`WPM : ${wordPerMinute}`, 900, 20, 18, r.GRAY);
+    r.DrawText(`Accuracy : ${correctAccuracy} %`, 1200, 20, 18, r.GRAY);
 };
 
 const draw = function (world) {
-    const { sentence, textBox, inputText, result, isTypingComplete } = world;
+    const {
+        sentence,
+        textBox,
+        inputText,
+        result,
+        isTypingComplete,
+        sentenceProperty,
+    } = world;
+
+    const { mismatch } = sentenceProperty;
     r.BeginDrawing();
     r.ClearBackground(r.RAYWHITE);
 
@@ -99,7 +110,7 @@ const draw = function (world) {
     input.draw(textBox);
     input.drawCharacter(inputText);
     if (isTypingComplete) {
-        drawWPMandAccuracy(result.time, sentence.data.length - 1);
+        drawWPMandAccuracy(result.time, sentence.data.length - 1, mismatch);
     }
     debug.drawDebug(world);
 
