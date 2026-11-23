@@ -3,7 +3,6 @@ const s = require("./sentence");
 const d = require("./data");
 const input = require("./input");
 const debug = require("./debug");
-const { isEqual } = require("./geometry");
 
 const running = function () {
     return !r.WindowShouldClose();
@@ -32,7 +31,7 @@ const setup = function () {
         color: r.WHITE,
     });
     const inputText = [];
-    let inputWord = "";
+    const inputWord = "";
 
     r.SetTraceLogLevel(r.LOG_NONE);
     r.InitWindow(WIDTH, HEIGHT, TITLE);
