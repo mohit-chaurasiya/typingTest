@@ -24,6 +24,8 @@ const setup = function () {
         color: r.GRAY,
     });
 
+    const sentenceLength = sentence.data.length - 1;
+
     const textBox = input.createTextBox({
         x: 20,
         y: 150,
@@ -55,6 +57,7 @@ const setup = function () {
             mismatch: 0,
             sentenceIndex: 0,
             charX: textBox.x + 5,
+            sentenceLength,
         },
         result: {
             time: 0,
@@ -64,9 +67,12 @@ const setup = function () {
 };
 
 const update = function (world) {
-    const { sentence, sentenceProperty, result, screen } = world;
+    const { sentence, sentenceProperty, result, screen, isTypingComplete } =
+        world;
+    world.isTypingComplete =
+        sentenceProperty.sentenceLength === world.inputText.length;
 
-    if (sentence.data.length === world.inputText.length) {
+    if (isTypingComplete) {
         return false;
     }
     result.time += 1 / screen.fps;
@@ -79,22 +85,21 @@ const update = function (world) {
     );
 };
 
+const drawWPMandAccuracy = function (time, length) {
+    const wordPerMinute = wpm(Math.floor(time), length);
+    r.DrawText(`WPM : ${wordPerMinute}`, 900, 30, 18, r.GRAY);
+};
+
 const draw = function (world) {
-    const { sentence, textBox, inputText, result } = world;
+    const { sentence, textBox, inputText, result, isTypingComplete } = world;
     r.BeginDrawing();
     r.ClearBackground(r.RAYWHITE);
 
     s.draw(sentence);
     input.draw(textBox);
     input.drawCharacter(inputText);
-    if (sentence.data.length === world.inputText.length) {
-        r.DrawText(
-            `WPM : ${(wpm(Math.floor(result.time)), sentence.data.length)}`,
-            900,
-            30,
-            18,
-            r.GRAY,
-        );
+    if (isTypingComplete) {
+        drawWPMandAccuracy(result.time, sentence.data.length - 1);
     }
     debug.drawDebug(world);
 
