@@ -87,11 +87,10 @@ const draw = function (world) {
     s.draw(sentence);
     input.draw(textBox);
     input.drawCharacter(inputText);
-
     if (sentence.data.length === world.inputText.length) {
         r.DrawText(
             `WPM : ${(wpm(Math.floor(result.time)), sentence.data.length)}`,
-            600,
+            900,
             30,
             18,
             r.GRAY,
